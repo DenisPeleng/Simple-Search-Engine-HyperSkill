@@ -20,5 +20,11 @@ public class ContactsStorage {
     public void addContact(String contactStr) {
         contacts.add(contactStr);
     }
-
+public void printAllData(){
+    System.out.println("=== List of people ===");
+    for (String data:contacts
+         ) {
+        System.out.println(data);
+    }
+}
 }
