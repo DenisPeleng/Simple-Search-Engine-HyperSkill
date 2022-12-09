@@ -7,21 +7,37 @@ public class Menu {
     private static final Scanner scanner = new Scanner(System.in);
     private static boolean isWorkingMenu = true;
 
-    public static void startMenu() {
+    public static void startMenu(String[] args) {
+        ContactsStorage contactsStorage = new ContactsStorage();
+        String filePathContacts = null;
+        boolean isReadFromFile = false;
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].contains("--data")) {
+                filePathContacts = args[i + 1];
+                isReadFromFile = true;
+            }
+        }
+        if (isReadFromFile) {
+            contactsStorage.addContactsFromFile(filePathContacts);
+        } else {
+            addContactsMenu(contactsStorage);
+        }
 
+        while (isWorkingMenu) {
+            startMainMenu(contactsStorage);
+        }
+
+    }
+
+    public static void addContactsMenu(ContactsStorage contactsStorage) {
         System.out.println("Enter the number of people:");
         int numberOfPeople = Integer.parseInt(scanner.nextLine());
         System.out.println("Enter all people:");
-        ContactsStorage contactsStorage = new ContactsStorage();
         for (int i = 0; i < numberOfPeople; i++) {
             String currentStr = scanner.nextLine();
             contactsStorage.addContact(currentStr);
         }
         System.out.println();
-        while (isWorkingMenu) {
-            startMainMenu(contactsStorage);
-        }
-
     }
 
     public static void searchInfoMenu(ContactsStorage contactsStorage) {
