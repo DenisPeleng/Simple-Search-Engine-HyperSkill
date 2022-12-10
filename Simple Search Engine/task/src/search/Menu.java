@@ -19,6 +19,7 @@ public class Menu {
         }
         if (isReadFromFile) {
             contactsStorage.addContactsFromFile(filePathContacts);
+            contactsStorage.createIndexesMap();
         } else {
             addContactsMenu(contactsStorage);
         }
@@ -37,6 +38,7 @@ public class Menu {
             String currentStr = scanner.nextLine();
             contactsStorage.addContact(currentStr);
         }
+        contactsStorage.createIndexesMap();
         System.out.println();
     }
 
@@ -55,9 +57,10 @@ public class Menu {
     public static void searchResultsMenu(ContactsStorage contactsStorage) {
         System.out.println("Enter a name or email to search all suitable people.");
         String dataToSearch = scanner.nextLine();
-        System.out.println();
-        List<String> resultSearch = contactsStorage.searchByKeyword(dataToSearch);
+       // System.out.println();
+        List<String> resultSearch = contactsStorage.searchByKeywordInvertedIndexMethod(dataToSearch);
         if (!resultSearch.isEmpty()) {
+            System.out.printf("%d persons found:\n", resultSearch.size());
             for (String data : resultSearch
             ) {
                 System.out.println(data);

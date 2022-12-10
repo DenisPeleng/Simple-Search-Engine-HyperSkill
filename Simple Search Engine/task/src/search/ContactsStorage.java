@@ -2,12 +2,11 @@ package search;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ContactsStorage {
     private final List<String> contacts = new ArrayList<>();
+    private HashMap<String, Set<Integer>> invertedIndexesMap = new HashMap<>();
 
     public List<String> searchByKeyword(String keyword) {
         List<String> result = new ArrayList<>();
@@ -41,5 +40,14 @@ public class ContactsStorage {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    public void createIndexesMap() {
+        invertedIndexesMap = InvertedIndexSearch.createIndexesMap(contacts);
+    }
+
+    public List<String> searchByKeywordInvertedIndexMethod(String keyword) {
+        return InvertedIndexSearch.invertedIndexesSearch(contacts, keyword.toLowerCase(), invertedIndexesMap);
     }
 }
