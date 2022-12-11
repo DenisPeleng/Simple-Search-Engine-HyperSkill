@@ -1,5 +1,8 @@
 package search;
 
+import search.KeywordSearch.KeywordSearch;
+import search.KeywordSearch.KeywordSearchFactory;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,23 +45,15 @@ public class Menu {
         System.out.println();
     }
 
-    public static void searchInfoMenu(ContactsStorage contactsStorage) {
-        System.out.println("Enter the number of search queries:");
-        int amountQueries = Integer.parseInt(scanner.nextLine());
-        System.out.println();
-        for (int i = 0; i < amountQueries; i++) {
-
-
-            searchResultsMenu(contactsStorage);
-        }
-
-    }
 
     public static void searchResultsMenu(ContactsStorage contactsStorage) {
+        KeywordSearchFactory keywordSearchFactory = new KeywordSearchFactory();
+        System.out.println("Select a matching strategy: ALL, ANY, NONE");
+        String typeOfSearch = scanner.nextLine().toLowerCase();
         System.out.println("Enter a name or email to search all suitable people.");
         String dataToSearch = scanner.nextLine();
-       // System.out.println();
-        List<String> resultSearch = contactsStorage.searchByKeywordInvertedIndexMethod(dataToSearch);
+        KeywordSearch keywordSearch = keywordSearchFactory.doSearch(typeOfSearch, contactsStorage, dataToSearch);
+        List<String> resultSearch = keywordSearch.searchForKeyword();
         if (!resultSearch.isEmpty()) {
             System.out.printf("%d persons found:\n", resultSearch.size());
             for (String data : resultSearch
@@ -75,7 +70,8 @@ public class Menu {
                            "1. Find a person\n" +
                            "2. Print all people\n" +
                            "0. Exit");
-        int input = Integer.parseInt(scanner.nextLine());
+        String nextLine = scanner.nextLine();
+        int input = nextLine.isEmpty() ? -1 : Integer.parseInt(nextLine);
         System.out.println();
         switch (input) {
             case 1:

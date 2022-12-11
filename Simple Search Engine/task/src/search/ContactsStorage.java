@@ -1,22 +1,29 @@
 package search;
 
+import search.KeywordSearch.InvertedIndexSearch;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
 public class ContactsStorage {
-    private final List<String> contacts = new ArrayList<>();
+    private List<String> contacts = new ArrayList<>();
     private HashMap<String, Set<Integer>> invertedIndexesMap = new HashMap<>();
 
-    public List<String> searchByKeyword(String keyword) {
-        List<String> result = new ArrayList<>();
-        for (String currentStr : contacts
-        ) {
-            if (currentStr.toLowerCase().contains(keyword.toLowerCase())) {
-                result.add(currentStr);
-            }
-        }
-        return result;
+    ContactsStorage() {
+    }
+
+    public ContactsStorage(ContactsStorage contactsStorage) {
+        this.contacts.addAll(contactsStorage.getContacts());
+        createIndexesMap();
+    }
+
+    public void setContacts(List<String> contacts) {
+        this.contacts = contacts;
+    }
+
+    public List<String> getContacts() {
+        return contacts;
     }
 
     public void addContact(String contactStr) {

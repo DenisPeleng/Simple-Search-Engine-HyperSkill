@@ -1,4 +1,4 @@
-package search;
+package search.KeywordSearch;
 
 
 import java.util.*;
@@ -6,7 +6,7 @@ import java.util.*;
 public class InvertedIndexSearch {
 
 
-    static HashMap<String, Set<Integer>> createIndexesMap(List<String> ListContacts) {
+    public static HashMap<String, Set<Integer>> createIndexesMap(List<String> ListContacts) {
         HashMap<String, Set<Integer>> invertedIndexesMap = new HashMap<>();
         for (int i = 0; i < ListContacts.size(); i++) {
             String[] arrayOfLine = ListContacts.get(i).split(" ");
@@ -29,7 +29,6 @@ public class InvertedIndexSearch {
     }
 
     public static ArrayList<String> invertedIndexesSearch(List<String> contactsList, String keyword, HashMap<String, Set<Integer>> invertedIndexesMap) {
-        createIndexesMap(contactsList);
         ArrayList<String> result = new ArrayList<>();
         if (invertedIndexesMap.containsKey(keyword)) {
             Set<Integer> setIndexes = invertedIndexesMap.get(keyword);
